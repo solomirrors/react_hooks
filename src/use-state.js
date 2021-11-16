@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
 
-const App = () => {
+const TestingUseState = () => {
     return (
         <React.Fragment>
             <HookSwitcher/>

@@ -1,20 +1,58 @@
-import React, {useContext, useEffect } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ReactDOM from "react-dom";
 
-const MyContext = React.createContext();
-
 const App = () => {
+    const [value, setValue] = useState(0);
+    const [visible, setVisible] = useState(true);
+
+    if (visible) {
+        return (
+            <div>
+                <button
+                    onClick={() => setValue((v) => v+1)}
+                >
+                    +
+                </button>
+                <button
+                    onClick={() => setVisible(false)}
+                >
+                    Hide
+                </button>
+                <Notification/>
+            </div>
+        )
+    }
+    else return <div>Hide Closed</div>
+}
+
+const HookCounter = ({value}) => {
+    useEffect(() => {
+        console.log('EffectMount');
+        return () => {
+            console.log('EffectUnMount')
+        }
+    },[])
+
+    return <p>{value}</p>
+}
+
+const Notification = () => {
+    const [visible, setVisible] = useState(true)
+
+    useEffect(() => {
+        const timeout = setTimeout(() => setVisible(false), 3500)
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [])
+
     return (
-        <MyContext.Provider value='Hello React Context'>
-            <Child/>
-        </MyContext.Provider>
+        <div >
+            {visible && <p>Hello!</p>}
+        </div>
     )
 }
 
-const Child = () => {
-    const value = useContext(MyContext);
-    return <p>{value}</p>;
-}
 
 ReactDOM.render(
     <React.StrictMode>
